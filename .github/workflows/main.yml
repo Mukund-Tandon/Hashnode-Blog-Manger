@@ -15,4 +15,5 @@ jobs:
 
             - name: echo changes in files
               run: |
-                  git diff --name-only ${{ github.event.before }} ${{ github.event.after }}
+                echo "Before commit: ${{ github.event.before }}"
+                echo "After commit: ${{ github.event.after }}"
