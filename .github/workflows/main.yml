@@ -1,0 +1,18 @@
+name: hashnode blog manager
+
+on:
+    push:
+        branches:
+            - main
+
+jobs:
+    do_stuff:
+        runs-on: ubuntu-latest
+
+        steps:
+            - name: Checkout repository
+              uses: actions/checkout@v2
+
+            - name: echo changes in files
+              run: |
+                  git diff  ${{ github.event.before }} ${{ github.event.after }}
