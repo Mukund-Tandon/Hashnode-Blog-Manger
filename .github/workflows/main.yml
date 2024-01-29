@@ -12,9 +12,10 @@ jobs:
         steps:
             - name: Checkout repository
               uses: actions/checkout@v2
+              with:
+                fetch-depth: 0
 
             - name: echo changes in files
               run: |
-                changed_files = $(git diff-tree --no-commit-id --name-only -r origin/main)
-                echo "$changed_files" 
-                
+                changed_files=$(git diff-tree --no-commit-id --name-only -r origin/main)
+                echo "Changed files: $changed_files" 
