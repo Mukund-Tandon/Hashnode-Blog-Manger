@@ -13,8 +13,7 @@ jobs:
             - name: Checkout repository
               uses: actions/checkout@v4
               with:
-                sparse-checkout: |
-                 blogs
+                sparse-checkout: 'blogs'
                 fetch-depth: 0
 
             - name: echo changes in files
