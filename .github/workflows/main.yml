@@ -18,9 +18,14 @@ jobs:
 
             - name: echo changes in files
               run: |
-                changed_files=$(git diff-tree --no-commit-id --name-only -r origin/main | grep "^blogs/") 
+                changed_files=$(git diff-tree --no-commit-id --name-only -r origin/main | grep "^blogs/")
+                echo "Changed files are: $changed_files" 
+                if [[ -z "$changed_files" ]]; then
+                echo "No changed files found in the blogs directory."
+                else
                 for file in $changed_files
                 do
-                echo "Contents of $file:"
-                cat $file
-                done 
+                    echo "Contents of $file:"
+                    cat $file
+                done
+                fi
