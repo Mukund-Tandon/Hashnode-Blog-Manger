@@ -22,7 +22,7 @@ runs:
     - name: Install dependencies
       run: |
         cd ${{ github.workspace }}
-        pip install -r /requirements.txt
+        pip install requests==2.31.0
       shell: bash
 
     - name: Process blog changes
