@@ -22,6 +22,7 @@ runs:
     - name: Install dependencies
       run: |
         cd ${{ github.workspace }}
+        ls -la
         pip install requests==2.31.0
       shell: bash
 
