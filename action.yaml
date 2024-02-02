@@ -9,7 +9,6 @@ inputs:
     description: 'Hashnode access token to authenticate API requests'
     required: true
 runs:
- using: 'composite'
  steps:
     - name: Checkout repository
       uses: actions/checkout@v4
@@ -24,7 +23,6 @@ runs:
     - name: Process blog changes
       run: |
         changed_files=$(git diff-tree --no-commit-id --name-only -r origin/main | grep "^${{ inputs.blog_path }}")
-
         if [[ -z "$changed_files" ]]; then
           echo "No changed files found in the specified directory."
         else
