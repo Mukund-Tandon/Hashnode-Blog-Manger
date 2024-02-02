@@ -20,7 +20,9 @@ runs:
         python-version: 3.8
 
     - name: Install dependencies
-      run: pip install -r requirements.txt
+      run: |
+        cd ${{ github.workspace }}
+        pip install -r requirements.txt
       shell: bash
 
     - name: Process blog changes
