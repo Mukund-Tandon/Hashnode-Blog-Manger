@@ -1,5 +1,4 @@
 import sys
-
 def process_content():
     for line in sys.stdin:
         # Process each line of input as needed
