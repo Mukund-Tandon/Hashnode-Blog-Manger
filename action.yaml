@@ -1,19 +1,28 @@
+# .github/actions/hashnode-blog-manager/action.yml
 name: 'Hashnode Blog Manager'
 description: 'Manage Hashnode blog posts using GitHub Actions'
 inputs:
-  blog_path:
+ blog_path:
     description: 'Path to the blogs directory'
     required: true
-  hashnode_access_token:
+ hashnode_access_token:
     description: 'Hashnode access token to authenticate API requests'
     required: true
 runs:
-  using: 'composite'
-  steps:
-    - name: Checkout repository
+ using: 'composite'
+ steps:
+    - name: Checkout triggering repository
       uses: actions/checkout@v4
       with:
         fetch-depth: 0
+
+    - name: Checkout action repository
+      uses: actions/checkout@v4
+      with:
+        repository: 'Mukund-Tandon/Hashnode-Blog-Manger'
+        path: 'action-repo'
+        fetch-depth: 0
+
     - name: Set up Python
       uses: actions/setup-python@v2
       with:
@@ -37,7 +46,7 @@ runs:
             if cat "$file" | python $GITHUB_WORKSPACE/scripts/main.py; then
               echo "Successfully printed and processed $file using main.py."
             else
-              echo "Failed to print or process $file using main.py."
+              echo "Failed to check the file using main.py."
             fi
           done
         fi
