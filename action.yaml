@@ -14,14 +14,9 @@ runs:
     - name: Checkout triggering repository
       uses: actions/checkout@v4
       with:
+        persist-credentials: false
         fetch-depth: 0
 
-    - name: Checkout action repository
-      uses: actions/checkout@v4
-      with:
-        repository: 'Mukund-Tandon/Hashnode-Blog-Manger'
-        path: 'action-repo'
-        fetch-depth: 0
 
     - name: Set up Python
       uses: actions/setup-python@v2
@@ -43,7 +38,7 @@ runs:
           for file in $changed_files
           do
             echo "Contents of $file:"
-            if cat "$file" | python $GITHUB_WORKSPACE/scripts/main.py; then
+            if cat "$file" | python ./scripts/main.py; then
               echo "Successfully printed and processed $file using main.py."
             else
               echo "Failed to check the file using main.py."
