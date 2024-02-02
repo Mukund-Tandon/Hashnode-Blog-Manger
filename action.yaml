@@ -9,6 +9,7 @@ inputs:
     description: 'Hashnode access token to authenticate API requests'
     required: true
 runs:
+  using: 'composite'
  steps:
     - name: Checkout repository
       uses: actions/checkout@v4
@@ -18,8 +19,11 @@ runs:
       uses: actions/setup-python@v2
       with:
         python-version: 3.8
+
     - name: Install dependencies
       run: pip install -r requirements.txt
+      shell: bash
+
     - name: Process blog changes
       run: |
         changed_files=$(git diff-tree --no-commit-id --name-only -r origin/main | grep "^${{ inputs.blog_path }}")
@@ -36,3 +40,5 @@ runs:
                  fi         
               done       
         fi
+      
+      shell: bash
