@@ -14,7 +14,14 @@ runs:
     - name: Checkout triggering repository
       uses: actions/checkout@v4
       with:
-        persist-credentials: false
+        path: 'triggering-repo'
+        fetch-depth: 0
+    
+    - name: Checkout the repository
+      uses: actions/checkout@v4
+      with:
+        repository: Mukund-Tandon/Hashnode-Blog-Manger
+        path: 'action-repo'
         fetch-depth: 0
 
 
@@ -25,6 +32,8 @@ runs:
 
     - name: Install dependencies
       run: |
+        ls -la
+        cd action-repo
         ls -la
         pip install requests==2.31.0
       shell: bash
@@ -38,7 +47,7 @@ runs:
           for file in $changed_files
           do
             echo "Contents of $file:"
-            if cat "$file" | python ./scripts/main.py; then
+            if cat "$file" | python ./action-repo/scripts/main.py; then
               echo "Successfully printed and processed $file using main.py."
             else
               echo "Failed to check the file using main.py."
