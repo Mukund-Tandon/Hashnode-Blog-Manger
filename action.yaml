@@ -34,7 +34,7 @@ runs:
           for file in $changed_files
           do
             echo "Contents of $file:"
-            if cat "$file" | python ./scripts/main.py; then
+            if cat "$file" | python $GITHUB_WORKSPACE/scripts/main.py; then
               echo "Successfully printed and processed $file using main.py."
             else
               echo "Failed to print or process $file using main.py."
