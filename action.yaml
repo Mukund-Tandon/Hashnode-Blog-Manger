@@ -51,7 +51,7 @@ runs:
             folder_structure="{"
             for file in $files_in_folder; do
               content=$(cat "$file")
-              folder_structure+="\"$file\": \"""$content\""","
+              folder_structure+="\"$file\": \'''$content\''',"
             done
             folder_structure="${folder_structure%,}"  # Remove trailing comma
             folder_structure+="}"
