@@ -5,7 +5,7 @@ def process_content():
     for line in sys.stdin:
         s = s + line + "\n"
     print(s)
-    data = json.loads(s)
+    data = json.loads(sys.argv[0])
     print(data)
         
 
