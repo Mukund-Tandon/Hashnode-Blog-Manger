@@ -49,7 +49,7 @@ runs:
             
             for file in $files_in_folder; do
               echo "Contents of $file:"
-              content=$(cat "$file" | base64 -w 0)  # Use base64 to handle multiline content
+              content=$(cat "$file")
               echo "$file<<<>>>$content"
             done | python ../action-repo/scripts/main.py
           done
