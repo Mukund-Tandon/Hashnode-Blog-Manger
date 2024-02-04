@@ -1,11 +1,8 @@
 import sys
 import json
 def process_content():
-    s = ""
-    for line in sys.stdin:
-        s = s + line + "\n"
-    print(s)
-    data = json.loads(sys.argv[0])
+    
+    data = sys.argv[0]
     print(data)
         
 
