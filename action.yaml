@@ -47,7 +47,7 @@ runs:
           for file in $changed_files
           do
             echo "Contents of $file:"
-            if cat "$file" | python ./action-repo/scripts/main.py; then
+            if cat "$file" | python ../action-repo/scripts/main.py; then
               echo "Successfully printed and processed $file using main.py."
             else
               echo "Failed to check the file using main.py."
