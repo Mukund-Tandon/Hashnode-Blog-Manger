@@ -1,7 +1,7 @@
 import sys
 import json
 def process_content():
-    json_str = sys.argv[1]
+    json_str = sys.argv[0]
     data = json.loads(json_str)
 
     print(data) 
