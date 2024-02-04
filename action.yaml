@@ -37,6 +37,7 @@ runs:
 
     - name: Process blog changes
       run: |
+        ls -la
         changed_files=$(git diff-tree --no-commit-id --name-only -r origin/main | grep "^${{ inputs.blog_path }}")
         if [[ -z "$changed_files" ]]; then
           echo "No changed files found in the specified directory."
