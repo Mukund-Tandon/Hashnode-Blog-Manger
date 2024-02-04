@@ -1,9 +1,10 @@
 import sys
+import json
 def process_content():
-    for line in sys.stdin:
-        # Process each line of input as needed
-        print("1111111111111111")
-        print(line.strip())  # Example: Print the stripped content of each line
+    json_str = sys.argv[1]
+    data = json.loads(json_str)
+
+    print(data) 
 
 if __name__ == "__main__":
     process_content()
