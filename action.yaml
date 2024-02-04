@@ -1,29 +1,27 @@
-# .github/actions/hashnode-blog-manager/action.yml
 name: 'Hashnode Blog Manager'
 description: 'Manage Hashnode blog posts using GitHub Actions'
 inputs:
- blog_path:
+  blog_path:
     description: 'Path to the blogs directory'
     required: true
- hashnode_access_token:
+  hashnode_access_token:
     description: 'Hashnode access token to authenticate API requests'
     required: true
 runs:
- using: 'composite'
- steps:
+  using: 'composite'
+  steps:
     - name: Checkout triggering repository
       uses: actions/checkout@v4
       with:
         path: 'triggering-repo'
         fetch-depth: 0
     
-    - name: Checkout the repository
+    - name: Checkout action repository
       uses: actions/checkout@v4
       with:
-        repository: Mukund-Tandon/Hashnode-Blog-Manger
+        repository: Mukund-Tandon/Hashnode-Blog-Manager
         path: 'action-repo'
         fetch-depth: 0
-
 
     - name: Set up Python
       uses: actions/setup-python@v2
@@ -32,15 +30,14 @@ runs:
 
     - name: Install dependencies
       run: |
-        ls -la
-        cd action-repo
-        ls -la
         pip install requests==2.31.0
       shell: bash
 
     - name: Process blog changes
       run: |
+        ls -l
         changed_files=$(git diff-tree --no-commit-id --name-only -r origin/main | grep "^${{ inputs.blog_path }}")
+        
         if [[ -z "$changed_files" ]]; then
           echo "No changed files found in the specified directory."
         else
