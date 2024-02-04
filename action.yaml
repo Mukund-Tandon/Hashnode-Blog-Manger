@@ -42,19 +42,24 @@ runs:
         if [[ -z "$changed_files" ]]; then
           echo "No changed files found in the specified directory."
         else
-          IFS=$'\n' # Set Internal Field Separator to newline
+          IFS=$'\n' 
           for folder in $(echo "$changed_files" | xargs -n1 dirname | sort -u); do
             echo "Processing files in folder: $folder"
             files_in_folder=$(echo "$changed_files" | grep "^$folder")
             echo "Files in folder: $files_in_folder"
+            
+            folder_structure="{"
             for file in $files_in_folder; do
-              echo "Contents of $file:"
-              if cat "$file" | python ../action-repo/scripts/main.py; then
-                echo "Successfully printed and processed $file using main.py."
-              else
-                echo "Failed to check the file using main.py."
-              fi
+              content=$(cat "$file")
+              folder_structure+="\"$file\": \"$content\","
             done
+            folder_structure="${folder_structure%,}"  # Remove trailing comma
+            folder_structure+="}"
+
+            echo "Folder Structure: $folder_structure"
+            
+            # Pass folder_structure to your Python script
+            echo "$folder_structure" | python ../action-repo/scripts/main.py
           done
         fi
       shell: bash
