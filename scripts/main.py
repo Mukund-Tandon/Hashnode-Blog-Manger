@@ -1,10 +1,13 @@
 import sys
 import json
 def process_content():
-    json_str = sys.argv[0]
-    data = json.loads(json_str)
+    s = ""
+    for line in sys.stdin:
+        s = s + line + "\n"
 
-    print(data) 
+    data = json.loads(s)
+    print(data)
+        
 
 if __name__ == "__main__":
     process_content()
