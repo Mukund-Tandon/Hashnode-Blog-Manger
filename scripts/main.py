@@ -7,7 +7,7 @@ def open_files(file_paths):
         try:
             with open(file_path, 'r') as file:
                 content = file.read()
-                print(f"File content:\n{content}")
+                print(f"File content:\n{repr(content)}")
         except Exception as e:
             print(f"Error reading file {file_path}: {e}")
 
