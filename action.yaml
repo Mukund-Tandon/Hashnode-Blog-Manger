@@ -40,7 +40,7 @@ runs:
         ls -la
         changed_files=$(git diff-tree --no-commit-id --name-only -r origin/main | grep "^${{ inputs.blog_path }}")
         if [[ -z "$changed_files" ]]; then
-          echo "No changed files found in the specified directory."
+        echo "No changed files found in the specified directory."
         else
           IFS=$'\n' 
           for folder in $(echo "$changed_files" | xargs -n1 dirname | sort -u); do
@@ -48,18 +48,8 @@ runs:
             files_in_folder=$(echo "$changed_files" | grep "^$folder")
             echo "Files in folder: $files_in_folder"
             
-            folder_structure="{"
-            for file in $files_in_folder; do
-              content=$(cat "$file")
-              folder_structure+="\"$file\": \"$content\","
-            done
-            folder_structure="${folder_structure%,}"  # Remove trailing comma
-            folder_structure+="}"
-
-            echo "Folder Structure: $folder_structure"
-            
-            # Pass folder_structure to your Python script
-            echo "$folder_structure" | python ../action-repo/scripts/main.py
+            # Pass files_in_folder to your Python script
+            echo "$files_in_folder" | python ../action-repo/scripts/main.py
           done
-        fi
+      fi
       shell: bash
