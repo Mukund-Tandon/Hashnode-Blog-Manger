@@ -7,6 +7,9 @@ inputs:
   hashnode_access_token:
     description: 'Hashnode access token to authenticate API requests'
     required: true
+  publication_id:
+    description: 'Publication ID to publish the blog posts'
+    required: true
 runs:
   using: 'composite'
   steps:
@@ -35,6 +38,7 @@ runs:
 
     - name: Process blog changes
       run: |
+        echo " 000 - $TEST_VAT"
         ls -la
         cd triggering-repo
         ls -la
