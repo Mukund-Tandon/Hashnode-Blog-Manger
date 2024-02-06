@@ -12,6 +12,7 @@ inputs:
     required: true
 runs:
   using: 'composite'
+  environment: HASHNODE
   steps:
     - name: Checkout triggering repository
       uses: actions/checkout@v4
