@@ -30,7 +30,7 @@ runs:
           https://api.github.com/repos/${{ github.repository }}/actions/secrets/public-key)
         echo "$RESPONSE"
         KEY=$(echo "$RESPONSE" | jq -r '.key')
-        echo "PUBLIC_KEY=$KEY" >> $GITHUB_ENV
+        export PUBLIC_KEY=$KEY
       shell: bash
 
     - name: Checkout triggering repository

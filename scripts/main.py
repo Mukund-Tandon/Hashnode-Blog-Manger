@@ -2,6 +2,8 @@ import sys
 import os
 
 def open_files(file_paths):
+    public_key = os.environ.get('PUBLIC_KEY')
+    print(f"Public key: {public_key}")
     for file_path in file_paths:
         print(f"Opening file: {file_path}")
         try:
