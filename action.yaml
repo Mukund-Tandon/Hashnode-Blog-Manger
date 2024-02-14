@@ -18,6 +18,7 @@ runs:
   steps:
     - name: Install jq
       run: sudo apt-get install jq
+      shell: bash
 
     - name: Fetch public key
       id: fetch_key
@@ -30,6 +31,7 @@ runs:
         echo "$RESPONSE"
         KEY=$(echo "$RESPONSE" | jq -r '.key')
         echo "PUBLIC_KEY=$KEY" >> $GITHUB_ENV
+      shell: bash
 
     - name: Checkout triggering repository
       uses: actions/checkout@v4
