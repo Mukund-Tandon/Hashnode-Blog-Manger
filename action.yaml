@@ -14,9 +14,6 @@ inputs:
     description: 'GitHub API token to fetch the public key'
     required: true
 
-env:
-  HASHNODE_ACCESS_TOKEN: ${{ inputs.hashnode_access_token }}
-  PUBLICATION_ID: ${{ inputs.publication_id }}
 runs:
   using: 'composite'
   steps:
