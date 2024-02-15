@@ -13,6 +13,10 @@ inputs:
   github_api_token:
     description: 'GitHub API token to fetch the public key'
     required: true
+
+env:
+  HASHNODE_ACCESS_TOKEN: ${{ inputs.hashnode_access_token }}
+  PUBLICATION_ID: ${{ inputs.publication_id }}
 runs:
   using: 'composite'
   steps:
@@ -30,7 +34,7 @@ runs:
           https://api.github.com/repos/${{ github.repository }}/actions/secrets/public-key)
         echo "$RESPONSE"
         KEY=$(echo "$RESPONSE" | jq -r '.key')
-        export PUBLIC_KEY=$KEY
+        echo "PUBLIC_KEY=$KEY" >> $GITHUB_ENV
       shell: bash
 
     - name: Checkout triggering repository
