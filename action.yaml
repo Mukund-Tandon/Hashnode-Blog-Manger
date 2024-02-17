@@ -34,6 +34,14 @@ runs:
         echo "PUBLIC_KEY=$KEY" >> $GITHUB_ENV
       shell: bash
 
+    - name: Set Environment Variable
+      run: |
+        echo "HASHNODE_ACCESS_TOKEN=${{ inputs.hashnode_access_token }}" >> $GITHUB_ENV
+        echo "PUBLICATION_ID=${{ inputs.publication_id }}" >> $GITHUB_ENV
+        echo "GITHUB_API_TOKEN=${{ inputs.github_api_token }}" >> $GITHUB_ENV
+        echo "GITHUB_REPOSITORY=${{ github.repository }}" >> $GITHUB_ENV
+      shell: bash
+
     - name: Checkout triggering repository
       uses: actions/checkout@v4
       with:
