@@ -2,8 +2,8 @@ import sys
 import os
 import json
 
-import BlogPost
-import BlogStatus
+from models.blog import BlogPost
+from models.blogStatus import BlogStatus
 
 
 
