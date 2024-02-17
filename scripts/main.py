@@ -36,7 +36,7 @@ def getBlogFromFilePath(file_paths):
 
 
 def checkBlogStatus(blog,github_api_token,github_repository):
-    blog_staus = BlogStatus()
+    blog_status = BlogStatus()
     url = f"https://api.github.com/repos/{github_repository}/actions/secrets/BLOG_IDS"
     headers = {
         "Accept": "application/vnd.github+json",
@@ -67,6 +67,7 @@ def main():
     publication_id = os.environ.get('PUBLICATION_ID')
     github_api_token = os.environ.get('GITHUB_API_TOKEN')
     github_repository = os.environ.get('GITHUB_REPOSITORY')
+    blog_ids = os.environ.get('BLOG_IDS')
     # Read file paths from standard input
     file_paths = sys.stdin.read().strip().split('\n')
 

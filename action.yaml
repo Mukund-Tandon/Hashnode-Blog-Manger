@@ -13,6 +13,9 @@ inputs:
   github_api_token:
     description: 'GitHub API token to fetch the public key'
     required: true
+  blog_ids:
+    description: 'blog ids secret'
+    required: true
 
 runs:
   using: 'composite'
@@ -40,6 +43,7 @@ runs:
         echo "PUBLICATION_ID=${{ inputs.publication_id }}" >> $GITHUB_ENV
         echo "GITHUB_API_TOKEN=${{ inputs.github_api_token }}" >> $GITHUB_ENV
         echo "GITHUB_REPOSITORY=${{ github.repository }}" >> $GITHUB_ENV
+        echo "BLOG_IDS=${{ inputs.blog_ids }}" >> $GITHUB_ENV
       shell: bash
 
     - name: Checkout triggering repository
