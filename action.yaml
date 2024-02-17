@@ -42,7 +42,7 @@ runs:
         echo "PUBLICATION_ID=${{ inputs.publication_id }}" >> $GITHUB_ENV
         echo "GITHUB_API_TOKEN=${{ inputs.github_api_token }}" >> $GITHUB_ENV
         echo "GITHUB_REPOSITORY=${{ github.repository }}" >> $GITHUB_ENV
-        # echo "BLOG_IDS='''${{ inputs.blogIds }}'''" >> $GITHUB_ENV
+        echo "BLOG_IDS=${{ inputs.blogIds }}"
       shell: bash
 
     - name: Checkout triggering repository
