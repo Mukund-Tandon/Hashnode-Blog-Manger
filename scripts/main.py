@@ -37,25 +37,10 @@ def getBlogFromFilePath(file_paths):
 
 def checkBlogStatus(blog,github_api_token,github_repository):
     blog_status = BlogStatus()
-    url = f"https://api.github.com/repos/{github_repository}/actions/secrets/BLOG_IDS"
-    headers = {
-        "Accept": "application/vnd.github+json",
-        "Authorization": f"Bearer {github_api_token}",
-        "X-GitHub-Api-Version": "2022-11-28"
-    }
-    print("1")
-    try:
-        response = requests.get(url, headers=headers)
-        print("2")
-        response.raise_for_status()  # Raise an exception for 4xx or 5xx status codes
-        print("2")
-        secret_data = response.json()
-        print("2")
-        print("Secret data below ------>")
-        print(secret_data)
-    except requests.exceptions.RequestException as e:
-        print(f"Error fetching secret from GitHub API: {e}")
-        return None
+    print("Checking blog status")
+
+    # Check if blog has a filepath
+
 
 
     return blog_status
@@ -79,7 +64,7 @@ def main():
     
     blog = getBlogFromFilePath(file_paths)
     print("Blog object created")
-    blog_status = checkBlogStatus(blog,github_api_token,github_repository)
+    blog_status = checkBlogStatus(blog,blog_ids)
     print("Blog status checked")
 
 
