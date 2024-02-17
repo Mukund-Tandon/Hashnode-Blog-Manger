@@ -1,7 +1,7 @@
 import sys
 import os
 import json
-
+import requests
 from models.blog import BlogPost
 from models.blogStatus import BlogStatus
 
