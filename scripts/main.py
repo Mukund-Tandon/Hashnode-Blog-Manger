@@ -78,7 +78,7 @@ def main():
     
     blog = getBlogFromFilePath(file_paths)
     print("Blog object created")
-    blog_status = checkBlogStatus(blog,github_api_token)
+    blog_status = checkBlogStatus(blog,github_api_token,github_repository)
     print("Blog status checked")
 
 
