@@ -32,6 +32,8 @@ def getBlogFromFilePath(file_paths):
         except Exception as e:
             print(f"Error reading file {file_path}: {e}")
 
+    return blog
+
 
 def checkBlogStatus(blog,github_api_token,github_repository):
     blog_staus = BlogStatus()
