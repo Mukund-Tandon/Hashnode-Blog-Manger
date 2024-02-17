@@ -28,6 +28,7 @@ class BlogPost:
         if isinstance(config, str):
             try:
                 config_dict = json.loads(config)
+                print(f"config_dict: {config_dict}")
                 self.__config = config_dict
             except json.JSONDecodeError:
                 print("Invalid JSON format for config. Config not updated.")

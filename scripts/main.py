@@ -9,7 +9,7 @@ from models.blogStatus import BlogStatus
 
 
 def getBlogFromFilePath(file_paths):
-    if len(file_paths) != 2:
+    if len(file_paths) >= 2:
         raise ValueError("Exactly two file paths are required")
 
     blog = BlogPost()
@@ -31,7 +31,7 @@ def getBlogFromFilePath(file_paths):
                 print(f"File content:\n{content}")
         except Exception as e:
             print(f"Error reading file {file_path}: {e}")
-
+    print("Done creting blog object now going back to main function")
     return blog
 
 
@@ -43,11 +43,14 @@ def checkBlogStatus(blog,github_api_token,github_repository):
         "Authorization": f"Bearer {github_api_token}",
         "X-GitHub-Api-Version": "2022-11-28"
     }
-
+    print("1")
     try:
         response = requests.get(url, headers=headers)
+        print("2")
         response.raise_for_status()  # Raise an exception for 4xx or 5xx status codes
+        print("2")
         secret_data = response.json()
+        print("2")
         print("Secret data below ------>")
         print(secret_data)
     except requests.exceptions.RequestException as e:
@@ -74,7 +77,9 @@ def main():
         return
     
     blog = getBlogFromFilePath(file_paths)
+    print("Blog object created")
     blog_status = checkBlogStatus(blog,github_api_token)
+    print("Blog status checked")
 
 
 
