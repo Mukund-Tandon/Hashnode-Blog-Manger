@@ -9,7 +9,7 @@ from models.blogStatus import BlogStatus
 
 
 def getBlogFromFilePath(file_paths):
-    if len(file_paths) >= 2:
+    if len(file_paths) > 2:
         raise ValueError("Exactly two file paths are required")
 
     blog = BlogPost()
