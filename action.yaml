@@ -24,8 +24,8 @@ runs:
       run: sudo apt-get install jq
       shell: bash
 
-    - name: Fetch public key
-      id: fetch_key
+    # - name: Fetch public key
+    #   id: fetch_key
       # run: |
       #   RESPONSE=$(curl -L \
       #     -H "Accept: application/vnd.github+json" \
