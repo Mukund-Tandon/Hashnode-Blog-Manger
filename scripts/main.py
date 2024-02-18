@@ -38,6 +38,8 @@ def getBlogFromFilePath(file_paths):
 def checkBlogStatus(blog,blog_ids):
     blog_status = BlogStatus()
     print("Checking blog status")
+    print(f"Blog: {blog}")
+    print(f"Blog IDs: {blog_ids}")
 
     # Check if blog has a filepath
 
