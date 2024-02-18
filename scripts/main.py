@@ -35,7 +35,7 @@ def getBlogFromFilePath(file_paths):
     return blog
 
 
-def checkBlogStatus(blog,github_api_token,github_repository):
+def checkBlogStatus(blog,blog_ids):
     blog_status = BlogStatus()
     print("Checking blog status")
 
