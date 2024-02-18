@@ -36,8 +36,12 @@ def getBlogFromFilePath(file_paths):
 
 
 def checkBlogStatus(blog,blog_ids):
+    script_dir = os.path.dirname(os.path.realpath(__file__))
+
+# Construct the absolute path to the JSON file
+    blog_ids_file = os.path.join(script_dir, '..', 'blog_ids.json')
     blog_status = BlogStatus()
-    with open('blog_ids.json', 'r') as file:
+    with open(blog_ids_file, 'r') as file:
         blog_ids_json = json.load(file)
         print(f"Blog IDs JSON: {blog_ids_json}")
     list_of_blog_ids = blog_ids_json['ids']
