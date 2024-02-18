@@ -59,7 +59,8 @@ runs:
         echo "GITHUB_REPOSITORY=${{ github.repository }}" >> $GITHUB_ENV
         echo "------------------&&&77777777  ------------"
         ls
-        cd action-repo
+        cd action-repo/scripts
+        echo "------------------&&&77777777  ------------"
         ls
         echo "${{ inputs.blogIds }}" > blog_ids.json
 
