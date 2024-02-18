@@ -43,7 +43,7 @@ runs:
         echo "GITHUB_API_TOKEN=${{ inputs.github_api_token }}" >> $GITHUB_ENV
         echo "GITHUB_REPOSITORY=${{ github.repository }}" >> $GITHUB_ENV
         echo "BLOG_IDS<<EOF" >> $GITHUB_ENV
-        echo "${{ inputs.blogIds }}" >> $GITHUB_ENV
+        echo "${{ toJson(inputs.blogIds) }}" >> $GITHUB_ENV
         echo "EOF" >> $GITHUB_ENV
       shell: bash
 
