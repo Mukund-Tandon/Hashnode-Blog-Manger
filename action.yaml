@@ -42,7 +42,7 @@ runs:
         echo "PUBLICATION_ID=${{ inputs.publication_id }}" >> $GITHUB_ENV
         echo "GITHUB_API_TOKEN=${{ inputs.github_api_token }}" >> $GITHUB_ENV
         echo "GITHUB_REPOSITORY=${{ github.repository }}" >> $GITHUB_ENV
-        echo "${{ inputs.blogIds }}" > /action-repo/scripts/blog_ids.json
+        echo "${{ inputs.blogIds }}" > blog_ids.json
         ls
       shell: bash
 
