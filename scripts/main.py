@@ -39,6 +39,8 @@ def checkBlogStatus(blog,blog_ids):
     blog_status = BlogStatus()
     print("Checking blog status")
     print(blog_ids)
+    t = blog_ids
+    print(f"Blog IDs: {t}")
     blog_ids_json = json.loads(blog_ids)
     print(f"Blog IDs JSON: {blog_ids_json}")
     list_of_blog_ids = blog_ids_json['ids']
