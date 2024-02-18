@@ -58,7 +58,8 @@ runs:
         echo "GITHUB_API_TOKEN=${{ inputs.github_api_token }}" >> $GITHUB_ENV
         echo "GITHUB_REPOSITORY=${{ github.repository }}" >> $GITHUB_ENV
         ls
-        cd /action-repo/scripts
+        cd action-repo
+        ls
         echo "${{ inputs.blogIds }}" > blog_ids.json
 
         ls
