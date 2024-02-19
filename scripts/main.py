@@ -42,11 +42,12 @@ def checkBlogStatus(blog,blog_ids):
 #     blog_ids_file = os.path.join(script_dir, '..', 'blog_ids.json')
     blog_status = BlogStatus()
     with open('../action-repo/scripts/blog_ids.json', 'r') as file:
-        print("Contents of blog_ids.json:")
+        print("Contents of blog_ids.json:", file.read())
+        file.seek(0)  # Reset file pointer to beginning
         for line in file:
             print(line.rstrip())
+        file.seek(0)  # Reset file pointer to beginning
         blog_ids_json = json.load(file)
-        print(f"Blog IDs JSON: {blog_ids_json}")
     list_of_blog_ids = blog_ids_json['ids']
     print(f"List of blog IDs: {list_of_blog_ids}")
     filepath = blog.get_filepath()
