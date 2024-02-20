@@ -25,6 +25,7 @@ class BlogPost:
         return self.__config
 
     def set_config(self, config):
+        print(f"config: {config}")
         if isinstance(config, str):
             try:
                 config_dict = json.loads(config)
