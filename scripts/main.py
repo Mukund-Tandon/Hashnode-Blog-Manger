@@ -35,7 +35,7 @@ def getBlogFromFilePath(file_paths):
     return blog
 
 
-def checkBlogStatus(blog,blog_ids):
+def checkBlogStatus(blog):
 #     script_dir = os.path.dirname(os.path.realpath(__file__))
 
 # # Construct the absolute path to the JSON file
@@ -90,7 +90,7 @@ def main():
     
     blog = getBlogFromFilePath(file_paths)
     print("Blog object created")
-    blog_status = checkBlogStatus(blog,blog_ids)
+    blog_status = checkBlogStatus(blog)
     print("Blog status checked")
 
 
