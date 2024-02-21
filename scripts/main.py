@@ -41,22 +41,28 @@ def checkBlogStatus(blog,blog_ids):
 # # Construct the absolute path to the JSON file
 #     blog_ids_file = os.path.join(script_dir, '..', 'blog_ids.json')
     blog_status = BlogStatus()
-    with open('../action-repo/scripts/blog_ids.json', 'r') as file:
-        print("Contents of blog_ids.json:", file.read())
-        file.seek(0)  # Reset file pointer to beginning
+    file_contents = {}
+    with open('../action-repo/scripts/blog_ids.txt', 'r') as file:
         for line in file:
-            print(line.rstrip())
-        file.seek(0)  # Reset file pointer to beginning
-        blog_ids_json = json.load(file)
-    list_of_blog_ids = blog_ids_json['ids']
-    print(f"List of blog IDs: {list_of_blog_ids}")
-    filepath = blog.get_filepath()
-    print(f"Filepath: {filepath}")
-    if filepath in list_of_blog_ids:
-        blog_status.id = list_of_blog_ids[filepath]
-        blog_status.isNew = False
-    else:
-        blog_status.isNew = True
+        # Split the line based on the delimiter ":-"
+            parts = line.strip().split(":-")
+            # Check if the line has the expected format
+            if len(parts) == 2:
+                key = parts[0].strip()  # Extract the key
+                value = parts[1].strip()  # Extract the value
+                # Store the key-value pair in the dictionary
+                file_contents[key] = value
+
+    print(f"File contents: {file_contents}")
+    # list_of_blog_ids = blog_ids_json['ids']
+    # print(f"List of blog IDs: {list_of_blog_ids}")
+    # filepath = blog.get_filepath()
+    # print(f"Filepath: {filepath}")
+    # if filepath in list_of_blog_ids:
+    #     blog_status.id = list_of_blog_ids[filepath]
+    #     blog_status.isNew = False
+    # else:
+    #     blog_status.isNew = True
 
     
     # Check if blog has a filepath
@@ -72,7 +78,7 @@ def main():
     publication_id = os.environ.get('PUBLICATION_ID')
     github_api_token = os.environ.get('GITHUB_API_TOKEN')
     github_repository = os.environ.get('GITHUB_REPOSITORY')
-    blog_ids = os.environ.get('BLOG_IDS')
+    # blog_ids = os.environ.get('BLOG_IDS')
     # Read file paths from standard input
     file_paths = sys.stdin.read().strip().split('\n')
 

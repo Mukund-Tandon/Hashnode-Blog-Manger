@@ -62,7 +62,7 @@ runs:
         cd action-repo/scripts
         echo "------------------&&&77777777  ------------"
         ls
-        echo "${{ inputs.blogIds }}" > blog_ids.json
+        echo "${{ inputs.blogIds }}" > blog_ids.txt
 
         ls
         cd 
