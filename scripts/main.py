@@ -4,8 +4,15 @@ import json
 import requests
 from models.blog import BlogPost
 from models.blogStatus import BlogStatus
-
-
+graphql_endpoint = "https://gql.hashnode.com"
+def process_yaml():
+    try:
+        with open('config.json', 'r') as file:
+            config_data = json.load(file)
+            return config_data
+    except FileNotFoundError:
+        print("config.json file not found")
+        exit(1)
 
 
 def getBlogFromFilePath(file_paths):
@@ -64,23 +71,41 @@ def checkBlogStatus(blog):
     
     print(f"Blog status: {blog_status}")
     return blog_status
-    # list_of_blog_ids = blog_ids_json['ids']
-    # print(f"List of blog IDs: {list_of_blog_ids}")
-    # filepath = blog.get_filepath()
-    # print(f"Filepath: {filepath}")
-    # if filepath in list_of_blog_ids:
-    #     blog_status.id = list_of_blog_ids[filepath]
-    #     blog_status.isNew = False
-    # else:
-    #     blog_status.isNew = True
-
-
-    # Check if blog has a filepath
+    
 
 
 
     return blog_status
 
+
+def create_blog_post(blog,hashnode_api_token,github_api_token,publication_id):
+    config_data = blog.get_config()
+    config_data['contentMarkdown'] = blog.get_blog_content()
+    config_data['publicationId'] = publication_id
+
+    headers = {
+    "Authorization": hashnode_api_token
+    }
+    mutation_input = {
+    "input": config_data
+    }
+    mutation_query = """
+        mutation PublishPost($input: PublishPostInput!) {
+            publishPost(input: $input) {
+                post {
+                id
+                }
+            }
+        }
+    """
+    
+    response = requests.post(graphql_endpoint, json={"query": mutation_query, "variables": mutation_input}, headers=headers)
+    response_data = response.json()
+    print(f"Response: {response_data}")
+    if "errors" in response_data:
+        print(f"Error: {response_data['errors']}")
+        return
+    post_id = response_data['data']['publishPost']['post']['id']
 
 def main():
     public_key = os.environ.get('PUBLIC_KEY')
@@ -102,6 +127,11 @@ def main():
     print("Blog object created")
     blog_status = checkBlogStatus(blog)
     print("Blog status checked")
+
+    if blog_status.isNew:
+        create_blog_post(blog,hashnode_api_token,github_api_token,publication_id)
+
+
 
 
 
