@@ -54,6 +54,16 @@ def checkBlogStatus(blog):
                 file_contents[key] = value
 
     print(f"File contents: {file_contents}")
+    print(f"Filepath: {blog.get_filepath()}")
+
+    if blog.get_filepath() in file_contents:
+        blog_status.id = file_contents[blog.get_filepath()]
+        blog_status.isNew = False
+    else:
+        blog_status.isNew = True
+    
+    print(f"Blog status: {blog_status}")
+    return blog_status
     # list_of_blog_ids = blog_ids_json['ids']
     # print(f"List of blog IDs: {list_of_blog_ids}")
     # filepath = blog.get_filepath()
@@ -64,7 +74,7 @@ def checkBlogStatus(blog):
     # else:
     #     blog_status.isNew = True
 
-    
+
     # Check if blog has a filepath
 
 
@@ -87,7 +97,7 @@ def main():
         print("No files to process.")
         #TODO: how to throw errors which fail the github action?
         return
-    
+
     blog = getBlogFromFilePath(file_paths)
     print("Blog object created")
     blog_status = checkBlogStatus(blog)
