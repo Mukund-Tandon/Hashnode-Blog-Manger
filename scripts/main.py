@@ -5,8 +5,7 @@ import requests
 from models.blog import BlogPost
 from models.blogStatus import BlogStatus
 from base64 import b64encode
-import PyNaCl
-from nacl.public import PrivateKey, SealedBox
+
 from nacl import encoding, public
 graphql_endpoint = "https://gql.hashnode.com"
 def process_yaml():
