@@ -4,6 +4,10 @@ import json
 import requests
 from models.blog import BlogPost
 from models.blogStatus import BlogStatus
+from base64 import b64encode
+import nacl.utils
+from nacl.public import PrivateKey, SealedBox
+from nacl import encoding, public
 graphql_endpoint = "https://gql.hashnode.com"
 def process_yaml():
     try:
@@ -14,6 +18,12 @@ def process_yaml():
         print("config.json file not found")
         exit(1)
 
+def encrypt(public_key: str, secret_value: str) -> str:
+  """Encrypt a Unicode string using the public key."""
+  public_key = public.PublicKey(public_key.encode("utf-8"), encoding.Base64Encoder())
+  sealed_box = public.SealedBox(public_key)
+  encrypted = sealed_box.encrypt(secret_value.encode("utf-8"))
+  return b64encode(encrypted).decode("utf-8")
 
 def getBlogFromFilePath(file_paths):
     if len(file_paths) > 2:
@@ -78,7 +88,56 @@ def checkBlogStatus(blog):
     return blog_status
 
 
-def create_blog_post(blog,hashnode_api_token,github_api_token,publication_id):
+def append_to_blog_ids(data_to_append):
+    with open("../action-repo/scripts/blog_ids.txt", "r") as file:
+        existing_data = file.read()
+
+    updated_data = existing_data.strip()  # Remove trailing newline if present
+    if updated_data:  # Add a newline only if the file is not empty
+        updated_data += "\n"
+    updated_data += data_to_append
+
+    return updated_data
+
+def get_public_key_from_github(github_api_token,github_repository):
+    headers = {
+        "Accept": "application/vnd.github+json",
+        "Authorization": f"Bearer {github_api_token}",
+        "X-GitHub-Api-Version": "2022-11-28"
+    }
+    url = f"https://api.github.com/repos/{github_repository}/actions/secrets/public-key"
+    
+    response = requests.get(url, headers=headers)
+    if response.status_code == 200:
+        data = response.json()
+        return data['key_id'], data['key']
+    else:
+        print(f"Failed to retrieve public key: {response.status_code}")
+        return None, None
+
+
+def update_secret_on_github(github_api_token, github_repository, secret_name, encrypted_value, key_id):
+    headers = {
+        "Accept": "application/vnd.github+json",
+        "Authorization": f"Bearer {github_api_token}",
+        "X-GitHub-Api-Version": "2022-11-28",
+        "Content-Type": "application/json"
+    }
+    url = f"https://api.github.com/repos/{github_repository}/actions/secrets/{secret_name}"
+    data = {
+        "encrypted_value": encrypted_value,
+        "key_id": key_id
+    }
+    
+    response = requests.put(url, headers=headers, json=data)
+    if response.status_code == 204:
+        print(f"Secret '{secret_name}' updated successfully.")
+    else:
+        print(f"Failed to update secret '{secret_name}': {response.status_code}")
+
+    
+
+def create_blog_post(blog,hashnode_api_token,github_api_token,publication_id,github_repository):
     config_data = blog.get_config()
     config_data['contentMarkdown'] = blog.get_blog_content()
     config_data['publicationId'] = publication_id
@@ -106,6 +165,13 @@ def create_blog_post(blog,hashnode_api_token,github_api_token,publication_id):
         print(f"Error: {response_data['errors']}")
         return
     post_id = response_data['data']['publishPost']['post']['id']
+    blog_path = blog.get_filepath()
+    blog_path_id_pair_to_store = f"{blog_path}:-{post_id}"
+    key_id, public_key = get_public_key_from_github(github_api_token, github_repository)
+    print(f"Public key: {public_key}")
+    updated_data = append_to_blog_ids(blog_path_id_pair_to_store)
+    encryptes_value = encrypt(public_key, updated_data)
+    print(f"Encrypted value: {encryptes_value}")
 
 def main():
     public_key = os.environ.get('PUBLIC_KEY')
