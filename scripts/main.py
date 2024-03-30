@@ -167,10 +167,12 @@ def create_blog_post(blog,hashnode_api_token,github_api_token,publication_id,git
     blog_path = blog.get_filepath()
     blog_path_id_pair_to_store = f"{blog_path}:-{post_id}"
     key_id, public_key = get_public_key_from_github(github_api_token, github_repository)
-    print(f"Public key: {public_key}")
+    # print(f"Public key: {public_key}")
     updated_data = append_to_blog_ids(blog_path_id_pair_to_store)
     encryptes_value = encrypt(public_key, updated_data)
-    print(f"Encrypted value: {encryptes_value}")
+    # print(f"Encrypted value: {encryptes_value}")
+    update_secret_on_github(github_api_token, github_repository, "BLOG_IDS", encryptes_value, key_id)
+    print(f"Blog published with ID: {post_id}")
 
 def main():
     public_key = os.environ.get('PUBLIC_KEY')
@@ -195,6 +197,8 @@ def main():
 
     if blog_status.isNew:
         create_blog_post(blog,hashnode_api_token,github_api_token,publication_id,github_repository)
+    else:
+        print(f"Blog already published with ID: {blog_status.id}")
 
 
 
