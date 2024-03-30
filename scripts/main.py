@@ -44,7 +44,7 @@ def getBlogFromFilePath(file_paths):
                         print("Both blog md and config files should be in same directory")
                         exit(1)
                         
-                    blog.set_filepath(directory_path)
+                    blog.set_filepath(file_path)
                     blog.set_blog_content(content)
                 elif file_path.endswith(".json"):
                     directory_path = os.path.dirname(file_path)
