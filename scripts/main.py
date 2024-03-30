@@ -39,9 +39,19 @@ def getBlogFromFilePath(file_paths):
                 content = file.read()
 
                 if file_path.endswith(".md"):
-                    blog.set_filepath(file_path)
+                    directory_path = os.path.dirname(file_path)
+                    if(blog.get_filepath() != None and blog.get_filepath() != directory_path):
+                        print("Both blog md and config files should be in same directory")
+                        exit(1)
+                        
+                    blog.set_filepath(directory_path)
                     blog.set_blog_content(content)
                 elif file_path.endswith(".json"):
+                    directory_path = os.path.dirname(file_path)
+                    if(blog.get_filepath() != None and blog.get_filepath() != directory_path):
+                        print("Both blog md and config files should be in same directory")
+                        exit(1)
+                    blog.set_filepath(directory_path)
                     blog.set_config(json.loads(content))
                 else:
                     print(f"Ignoring file with unknown extension: {file_path}")
