@@ -191,8 +191,9 @@ def create_blog_post(blog,hashnode_api_token,github_api_token,publication_id,git
 
 def update_blog_post(blog,hashnode_api_token,blog_id):
     config_data = blog.get_config()
-    if config_data != None and blog.get_blog_content() != None:
-        config_data['contentMarkdown'] = blog.get_blog_content()
+    if config_data != None:
+        if blog.get_blog_content() != None:
+            config_data['contentMarkdown'] = blog.get_blog_content()
     else:
         config_data = {
             "contentMarkdown": blog.get_blog_content()
