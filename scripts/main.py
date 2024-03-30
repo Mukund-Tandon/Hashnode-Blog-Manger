@@ -194,7 +194,7 @@ def main():
     print("Blog status checked")
 
     if blog_status.isNew:
-        create_blog_post(blog,hashnode_api_token,github_api_token,publication_id)
+        create_blog_post(blog,hashnode_api_token,github_api_token,publication_id,github_repository)
 
 
 
