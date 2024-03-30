@@ -8,6 +8,8 @@ from base64 import b64encode
 
 from nacl import encoding, public
 graphql_endpoint = "https://gql.hashnode.com"
+
+#TODO: check if creaitng a new blog then both config and md should be there
 def process_yaml():
     try:
         with open('config.json', 'r') as file:
@@ -37,9 +39,18 @@ def getBlogFromFilePath(file_paths):
                 content = file.read()
 
                 if file_path.endswith(".md"):
-                    blog.set_filepath(file_path)
+                    directory_path = os.path.dirname(file_path)
+                    if(blog.get_filepath() != None and blog.get_filepath() != directory_path):
+                        print("Both blog md and config files should be in same directory")
+                        exit(1)
+                        
+                    blog.set_filepath(directory_path)
                     blog.set_blog_content(content)
                 elif file_path.endswith(".json"):
+                    directory_path = os.path.dirname(file_path)
+                    if(blog.get_filepath() != None and blog.get_filepath() != directory_path):
+                        print("Both blog md and config files should be in same directory")
+                        exit(1)
                     blog.set_config(json.loads(content))
                 else:
                     print(f"Ignoring file with unknown extension: {file_path}")
@@ -76,6 +87,9 @@ def checkBlogStatus(blog):
         blog_status.id = file_contents[blog.get_filepath()]
         blog_status.isNew = False
     else:
+        if blog.get_config() is None or blog.get_blog_content() is None:
+            print("Both config and md files are required to create a new blog post")
+            exit(1)
         blog_status.isNew = True
     
     print(f"Blog status: {blog_status}")
@@ -174,6 +188,40 @@ def create_blog_post(blog,hashnode_api_token,github_api_token,publication_id,git
     update_secret_on_github(github_api_token, github_repository, "BLOG_IDS", encryptes_value, key_id)
     print(f"Blog published with ID: {post_id}")
 
+def update_blog_post(blog,hashnode_api_token,blog_id):
+    config_data = blog.get_config()
+    if config_data != None and blog.get_blog_content() != None:
+        config_data['contentMarkdown'] = blog.get_blog_content()
+    else:
+        config_data = {
+            "contentMarkdown": blog.get_blog_content()
+        }
+    
+    config_data['id'] = blog_id
+    headers = {
+    "Authorization": hashnode_api_token
+    }
+    mutation_input = {
+    "input": config_data
+    }
+    mutation_query = """
+        mutation UpdatePost($input: UpdatePostInput!) {
+            updatePost(input: $input) {
+                post {
+                id
+                }
+            }
+        }
+    """
+
+    response = requests.post(graphql_endpoint, json={"query": mutation_query, "variables": mutation_input}, headers=headers)
+    response_data = response.json()
+    print(f"Response: {response_data}")
+    if "errors" in response_data:
+        print(f"Error: {response_data['errors']}")
+        return
+    post_id = response_data['data']['updatePost']['post']['id']
+    print(f"Blog updated with ID: {post_id}")
 def main():
     public_key = os.environ.get('PUBLIC_KEY')
     hashnode_api_token = os.environ.get('HASHNODE_ACCESS_TOKEN')
@@ -199,6 +247,7 @@ def main():
         create_blog_post(blog,hashnode_api_token,github_api_token,publication_id,github_repository)
     else:
         print(f"Blog already published with ID: {blog_status.id}")
+        update_blog_post(blog,hashnode_api_token,blog_status.id)
 
 
 
