@@ -64,21 +64,14 @@ def getBlogFromFilePath(file_paths):
 
 
 def checkBlogStatus(blog):
-#     script_dir = os.path.dirname(os.path.realpath(__file__))
-
-# # Construct the absolute path to the JSON file
-#     blog_ids_file = os.path.join(script_dir, '..', 'blog_ids.json')
     blog_status = BlogStatus()
     file_contents = {}
     with open('../action-repo/scripts/blog_ids.txt', 'r') as file:
         for line in file:
-        # Split the line based on the delimiter ":-"
             parts = line.strip().split(":-")
-            # Check if the line has the expected format
             if len(parts) == 2:
-                key = parts[0].strip()  # Extract the key
-                value = parts[1].strip()  # Extract the value
-                # Store the key-value pair in the dictionary
+                key = parts[0].strip()
+                value = parts[1].strip() 
                 file_contents[key] = value
 
     print(f"File contents: {file_contents}")
@@ -177,6 +170,7 @@ def create_blog_post(blog,hashnode_api_token,github_api_token,publication_id,git
     print(f"Response: {response_data}")
     if "errors" in response_data:
         print(f"Error: {response_data['errors']}")
+        exit(1)
         return
     post_id = response_data['data']['publishPost']['post']['id']
     blog_path = blog.get_filepath()
@@ -221,6 +215,7 @@ def update_blog_post(blog,hashnode_api_token,blog_id):
     print(f"Response: {response_data}")
     if "errors" in response_data:
         print(f"Error: {response_data['errors']}")
+        exit(1)
         return
     post_id = response_data['data']['updatePost']['post']['id']
     print(f"Blog updated with ID: {post_id}")
