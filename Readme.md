@@ -30,12 +30,16 @@ Example structure:
 /blogs
   /my-first-post
     post.md
-    post.json
+    config.json
 ```
 
 ### Step 2: Create the configuration file
 
-Each blog post needs a JSON configuration file with metadata. For example:
+Each blog post needs a JSON configuration file with metadata .
+
+Refer to https://apidocs.hashnode.com/?source=legacy-api-page#definition-PublishPostInput to more about configs we can add
+
+For example:
 
 ```json
 {
@@ -76,8 +80,6 @@ on:
   push:
     branches:
       - main
-    paths:
-      - 'blogs/**'
 
 jobs:
   publish-to-hashnode:
